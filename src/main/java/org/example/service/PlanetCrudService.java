@@ -43,11 +43,11 @@ public class PlanetCrudService {
         session.close();
     }
 
-    public void deleteById(String id){
+    public void deleteById(Integer id){
         Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
-        Query query = session.createQuery("delete from Planet where id= :id", Planet.class);
+        Query query = session.createQuery("delete from Planet p where p.id=:id");
         query.setParameter("id", id);
-        query.list();
+        query.executeUpdate();
         session.close();
     }
 }

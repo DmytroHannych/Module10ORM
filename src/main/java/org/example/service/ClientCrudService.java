@@ -41,18 +41,19 @@ public class ClientCrudService {
             Client updateClient = session.get(Client.class, id);
             updateClient.setName(name);
             session.persist(updateClient);
+            System.out.println("updateClient = " + updateClient);
             transaction.commit();
 
         }
     }
 
-    public void deleteById(long id){
+            public int deleteById(Long id){
         try (Session session = HibernateUtil.getInstance().getSessionFactory().openSession()) {
-            Query query = session.createQuery("delete from Client where id= :id", Client.class);
-            query.setParameter("id", id);
-            query.list();
+            String queryString = "delete from Client c where c.id=:id";
+            Query query = session.createQuery(queryString);
+            query.setParameter("id",id);
+            return query.executeUpdate();
         }
-
     }
 
 
