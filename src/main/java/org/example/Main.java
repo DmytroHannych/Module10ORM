@@ -17,6 +17,6 @@ public class Main {
 //        System.out.println("byid = " + byid);
 //        System.out.println("clientCrudService.listAll() = " + clientCrudService.listAll());
 //        clientCrudService.update(7l,"Opera");
-
+          clientCrudService.deleteById(11l);
     }
 }
