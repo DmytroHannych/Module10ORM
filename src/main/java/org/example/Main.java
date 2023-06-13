@@ -11,12 +11,12 @@ public class Main {
 //        FlywayDatabaseInitService databaseInitService = new FlywayDatabaseInitService();
 //        databaseInitService.initData();
 
-        ClientCrudService clientCrudService = new ClientCrudService();
+//        ClientCrudService clientCrudService = new ClientCrudService();
 //        clientCrudService.create("Piter");
 //        Client byid = clientCrudService.getByid(6L);
 //        System.out.println("byid = " + byid);
 //        System.out.println("clientCrudService.listAll() = " + clientCrudService.listAll());
 //        clientCrudService.update(7l,"Opera");
-          clientCrudService.deleteById(11l);
+//          clientCrudService.deleteById(11l);
     }
 }

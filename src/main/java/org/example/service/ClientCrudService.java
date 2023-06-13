@@ -3,23 +3,23 @@ package org.example.service;
 import org.example.Entity.Client;
 import org.example.hibernate.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.NativeQuery;
-import org.hibernate.query.Query;
-
 import java.util.List;
 
 public class ClientCrudService {
 
     public void create(String name) {
+        Transaction transaction = null;
         try (Session session = HibernateUtil.getInstance().getSessionFactory().openSession()) {
-            Transaction transaction = session.beginTransaction();
+            transaction = session.beginTransaction();
             Client newClient = new Client();
             newClient.setName(name);
             session.persist(newClient);
             transaction.commit();
-
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
     }
 
@@ -38,14 +38,19 @@ public class ClientCrudService {
     }
 
     public void update(Long id, String name) {
+        Transaction transaction = null;
         try (Session session = HibernateUtil.getInstance().getSessionFactory().openSession()) {
-            Transaction transaction = session.beginTransaction();
+            transaction = session.beginTransaction();
             Client updateClient = session.get(Client.class, id);
             updateClient.setName(name);
             session.persist(updateClient);
             System.out.println("updateClient = " + updateClient);
             transaction.commit();
 
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
     }
 
@@ -64,6 +69,4 @@ public class ClientCrudService {
             }
         }
     }
-
-
 }

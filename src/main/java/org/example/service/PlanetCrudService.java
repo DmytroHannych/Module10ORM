@@ -1,11 +1,10 @@
 package org.example.service;
 
-import org.example.Entity.Client;
+
 import org.example.Entity.Planet;
 import org.example.hibernate.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -13,11 +12,17 @@ public class PlanetCrudService {
 
 
     public void create(Planet planet) {
-        Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        session.persist(planet);
-        transaction.commit();
-        session.close();
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getInstance().getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.persist(planet);
+            transaction.commit();
+
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
     }
 
     public Planet getByid(String id) {
@@ -35,13 +40,19 @@ public class PlanetCrudService {
     }
 
     public void update(String id, String name) {
-        Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        Planet updatePlanet = session.get(Planet.class, id);
-        updatePlanet.setName(name);
-        session.persist(updatePlanet);
-        transaction.commit();
-        session.close();
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getInstance().getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            Planet updatePlanet = session.get(Planet.class, id);
+            updatePlanet.setName(name);
+            session.persist(updatePlanet);
+            transaction.commit();
+
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
     }
 
     public void deleteById(Integer id) {

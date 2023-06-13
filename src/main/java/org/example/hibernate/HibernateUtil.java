@@ -17,12 +17,14 @@ public class HibernateUtil {
     static {
         INSTANCE = new HibernateUtil();
     }
-    private HibernateUtil(){
+
+    private HibernateUtil() {
         sessionFactory = new Configuration()
                 .addAnnotatedClass(Planet.class)
                 .addAnnotatedClass(Client.class)
                 .buildSessionFactory();
     }
+
     public static HibernateUtil getInstance() {
         return INSTANCE;
     }
